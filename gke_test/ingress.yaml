@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress
+spec:
+  rules: #Ingressが受けたリクエストのパス毎に転送
+  - http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: todoweb #Serviceのmetadata.nameに合わせる
+          servicePort: 80 #Serviceのspec.portsに合わせる
