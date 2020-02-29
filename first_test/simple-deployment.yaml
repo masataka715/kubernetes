@@ -1,15 +1,15 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: Deployment #ReplicaSetの世代管理をする。yamlの書き方はReplicaSetとほぼ同じ。デプロイの基本単位
 metadata:
   name: echo
   labels: 
     app: echo
 spec:
-  replicas: 4
-  selector:
+  replicas: 3 #pod数を変更させても、Replicasetは新しく生成されない(revisionは作られない)
+  selector: #コマンドのselectorオプションで検索に使える
     matchLabels:
       app: echo
-  template:
+  template: #template以下はPodリソースにおける定義と同じもの
     metadata:
       labels:
         app: echo
@@ -23,6 +23,6 @@ spec:
           ports:
             - containerPort: 80
         - name: echo
-          image: gihyodocker/echo:patched
+          image: gihyodocker/echo:patched #コンテナイメージを変えると、Replicasetが新しく作られる
           ports:
             - containerPort: 8080

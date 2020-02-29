@@ -1,13 +1,13 @@
 apiVersion: v1
-kind: Pod
+kind: Pod #コンテナの集合体
 metadata:
-  name: simple-echo
+  name: simple-echo #このリソースの名称（Pod名）
 spec:
-  containers:
+  containers: #Podのspecではcontainersを定義する
     - name: nginx
       image: gihyodocker/nginx-proxy:latest
       env:
-        - name: BACKEND_HOST
+        - name: BACKEND_HOST #nginxは、リクエストのプロキシ先としてこの環境変数が必要
           value: localhost:8080
       ports:
         - containerPort: 80

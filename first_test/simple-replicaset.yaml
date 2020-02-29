@@ -1,18 +1,18 @@
 apiVersion: apps/v1
-kind: ReplicaSet
+kind: ReplicaSet #同一Podを複数生成・管理するためのリソース
 metadata:
   name: echo
   labels:
     app: echo
 spec:
-  replicas: 3
+  replicas: 3 #複製するPod数
   selector:
     matchLabels:
       app: echo
-  template:
+  template: #template以下はPodリソースにおける定義と同じもの
     metadata:
       labels:
-        app: echo
+        app: echo #Pod名は重複しないように、後ろにランダムな識別子が付く
     spec:
       containers:
         - name: nginx
