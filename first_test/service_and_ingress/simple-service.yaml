@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service #Podの集合（主にReplicaSet）に対する経路等を提供する
+metadata:
+  name: echo #Service名
+spec:
+  selector:
+    app: echo
+    release: summer #release=summerのPod(ReplicaSet)にだけアクセスできる
+  ports:
+    - name: http
+      port: 80
