@@ -3,9 +3,16 @@ kind: Service #Podの集合（主にReplicaSet）に対する経路等を提供�
 metadata:
   name: echo #Service名
 spec:
+  type: NodePort #デフォルトはClusterIP
   selector:
     app: echo
     release: summer #release=summerのPod(ReplicaSet)にだけアクセスできる
   ports:
     - name: http
       port: 80
+
+# Kubenetesクラスタ内のアプリケーション同士を協調させるようなケースでは、Service名で名前解決できる
+# http://echo.defalut.svc.local [Service名.Namespace名]※svc.localは省略可能
+# 基本的にServiceはKubenetesクラスタの中からしかアクセスできない（NodePortはできるが、L4層までしか扱えない）
+# NodePortの場合　curl http://127.0.0.1:30704（Portはget svcで確認）
+# HTTP/HTTPSのようにパスベースで転送先のServiceの切り替えるといったL7層レベルの制御はIngress

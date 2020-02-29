@@ -5,3 +5,6 @@ metadata:
 spec:
   type: ExternalName
   externalName: gihyo.jp
+
+# ExternalName Serviceは、Kubenetesクラスタ内から外部のホストを解決するためのエイリアス
+# 上記では、gihyo.jpをgihyoで名前解決できる

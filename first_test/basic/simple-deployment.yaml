@@ -9,7 +9,7 @@ spec:
   selector: #コマンドのselectorオプションで検索に使える
     matchLabels:
       app: echo
-  template: #template以下はPodリソースにおける定義と同じもの
+  template: #template以下は、Podリソースにおける定義と同じもの
     metadata:
       labels:
         app: echo

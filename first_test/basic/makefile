@@ -3,7 +3,7 @@ container-exec:
 	kubectl exec -it simple-echo sh -c nginx
 
 .PHONY: container-logs
-container-logs:
+container-logs: #-f [Pod名] -c [コンテナ名]
 	kubectl logs -f simple-echo -c echo
 
 .PHONY: record
