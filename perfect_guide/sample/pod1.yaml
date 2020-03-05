@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod1
+spec:
+  containers: # 80/TCPポート(ContainerPort)を利用するコンテナが２つあるため、一つは起動しない
+    - name: nginx-container-112
+      image: nginx:1.12
+    - name: nginx-container-113
+      image: nginx:1.13

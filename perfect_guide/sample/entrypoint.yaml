@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: entrypoint
+spec:
+  containers: 
+    - name: nginx-container-112
+      image: nginx:1.12
+      command: ["/bin/sleep"] #DokerfileのENTRYPOINT命令と同じ（コンテナ起動時のコマンド）
+      args: ["3600"] #DockerfileのCMD命令と同じ（引数）
+    
