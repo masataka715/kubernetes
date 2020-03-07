@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rs1
+spec:
+  replicas: 3
+  selector: #どのラベルが付与されたPodをカウントするか、指定する
+    matchLabels:
+      app: perfect-app #spec.template.metadata.labelsと一致させないとエラー
+  template:
+    metadata:
+      labels:
+        app: perfect-app
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:1.12
+          ports:
+            - containerPort: 80
+
+
+# 同一ラベルのPodを別に作ってしまうと、４つのPodのうち１つが停止されるので注意
+# スケーリングは、kubectl scaleコマンドでもできるが、マニフェストファイルを変更する方が良い

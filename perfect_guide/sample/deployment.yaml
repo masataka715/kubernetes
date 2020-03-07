@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dm1 #名前を変更してapplyすると、別個に新しいDeploymentが生成される
+spec:
+  strategy:
+    # type: Recreate #ダウンタイムがあるが、比較的切り替えが早い（get replicasets --watchで経過見れる）
+    type: RollingUpdate
+    rollingUpdate:
+        maxUnavailable: 0 #不足Pod数(%表示も可)
+        maxSurge: 1 #超過Pod数(%表示も可)
+  replicas: 3
+  selector:
+    matchLabels:
+      app: perfect-app
+  template:
+    metadata:
+      labels:
+        app: perfect-app
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:1.13
+          ports:
+            - containerPort: 80
+
+# Deploymentで作ると、Replicaset,Podのnameの接頭にもDeployment名が付される
+# spec.template以下が変更されると、新しくReplicasetが生成され、Rolling Updateされる
+# kubectl rolloutコマンドはあまり使わず、古いマニフェストを再度「kubectl apply」をした方が良い

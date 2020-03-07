@@ -1,0 +1,15 @@
+# DNSによる名前解決の前の、/etc/hostsファイルによる静的な名前解決
+# kubectl exec -it host-aliases cat /etc/hosts
+apiVersion: v1
+kind: Pod
+metadata:
+  name: host-aliases
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx:1.12
+  hostAliases:
+  - ip: 8.8.8.8
+    hostnames:
+    - google-dns
+    - google-public-dns
