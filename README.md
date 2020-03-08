@@ -60,6 +60,11 @@ kubectl -v=8 get pod
 kubectl rollout pause deployment dm1
 kubectl rollout resume deployment dm1
 kubectl rollout status deployment dm1
+
+# 永続化領域の確認
+kubectl get persistentvolumes
+# 永続化領域の解放
+kubectl delete persistentvolumeclaims www-ss1-{0..4}
 ```
 
 ### Context, Namespace
@@ -97,9 +102,19 @@ brew install kubectx (kubensも同時にインストールされる)
 # 設定確認
 gcloud config list
 
+# GKEで利用可能なKubernetesのversion確認
+gcloud container get-server-config --zone asia-northeast1-a
+
 # クラスタの作成
-gcloud container clusters create test --cluster-version=1.13.11-gke.14 --machine-type=n1-standard-1 --num-nodes=3
+gcloud container clusters create test --cluster-version=1.14.10-gke.17 --machine-type=n1-standard-1 --num-nodes=3
 
 # 作成したクラスタの認証情報をkubectlに渡す
 gcloud container clusters get-credentials test
+※コンテキストが２つできる（docker-for-desktop, gke~）
+
+# クラスタ削除
+gcloud container clusters delete test
+
+#クラスタ確認
+gcloud container clusters list
 ```

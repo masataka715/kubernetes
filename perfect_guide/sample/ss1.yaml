@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ss1
+spec:
+#   podManagementPolicy: Parallel #デフォルトはOrderedReadyだが、同時並行起動も設定できる
+  serviceName: ss1
+  replicas: 3
+  selector:
+    matchLabels:
+      app: perfect-app
+  template:
+    metadata:
+      labels:
+        app: perfect-app
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:1.12
+          ports:
+            - containerPort: 80
+          volumeMounts:
+          - name: www
+            mountPath: /usr/share/nginx/html #このフォルダ内は永続化される
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1G
+
+# データベースなどのStatefulなリソースに対応          
+# 作成されるPod名のサフィックスは数字のインデックスが付与される
+# StatefulSetを削除しても、永続化領域は確保されたままで、コストがかかる

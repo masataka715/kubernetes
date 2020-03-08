@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ds1
+spec:
+  
+  updateStrategy:
+    type: OnDelete
+  selector:
+    matchLabels:
+      app: perfect-app
+  template:
+    metadata:
+      labels:
+        app: perfect-app
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:1.12
+          ports:
+            - containerPort: 80
+
+# Replicasetの特殊系で、各ノードにPodを１つずつ配置するリソース（レプリカ数を指定できない）
+# ユースケースは、各Podが出力するログをホスト単位で収集するFluentdや、モニタリングするDatadog
+
+# OnDelete:DaemonSetのマニフェストが変更されてもPodは更新されず、別の要因でPodが再作成されるときに新しい定義でPodが作成される
+# RollingUpdate:Deploymentと異なり、maxSurge（超過可能なPod数）を設定できない。maxUnavailableを0にできない
