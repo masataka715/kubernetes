@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: clusterip1
+spec:
+  type: ClusterIP
+  ports:
+    - name: "http-port"
+      protocol: "TCP"
+      port: 8080 #ClusterIPで受け付けるPort番号
+      targetPort: 80 #転送先コンテナのPort番号
+    - name: "https-port"
+      protocol: "TCP"
+      port: 8443
+      targetPort: 443
+  selector:
+    app: perfect-app
+
+# ClusterIPは、クラスタ内でのみ利用可能な仮想IPを持つエンドポイントを提供するロードババランサー
+# ku describe svc clusterip1で、 IPや、Endpoints（トラフィック転送先のIPアドレス）等を確認できる
+# 一つのServiceで、複数のPortを持つことができる
+# サービスディカバり：Serviceに属するPodを列挙したり、 Serviceの名前からエンドポイントの情報を返すこと
+
+# testpodから、curlでリクエスト確認、digでドメイン名からIP(逆も可)を確認
+# ku run --image=centos:6 --restart=Never --rm -i testpod
+# curl -s http://clusterip1:8080（同一Namespace同士では、Namespace名を省略できる）
+# dig clusterip1.default.svc.cluster.local([Service名].[Namespace名].svc.cluster.local.)
