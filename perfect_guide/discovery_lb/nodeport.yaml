@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeport1
+spec:
+  type: NodePort
+  externalTrafficPolicy: Local
+  ports:
+    - name: "http-port"
+      protocol: "TCP"
+      port: 8080
+      targetPort: 80
+      nodePort: 30080 #NodePortは、30000~32767の間に限られる。重複したらエラー。
+  selector:
+    app: perfect-app
+
+# 1 確認したいNodeにssh接続　gcloud compute ssh [Node名] --zone asia-northeast1-a
+# 2 開いているportの確認（ポートは港で、ソケットはその管理者）　sudo ss -napt | grep 30080
+
+# spec.externalTrafficPolicyがCluster（デフォルト）の場合、ノード到達後に、他のノードにあるPodも含めて、ロードバランシングを行う。

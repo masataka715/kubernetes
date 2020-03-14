@@ -40,7 +40,7 @@ kubectl apply -f ./ -R
 kubectl apply -f ./ --prune
 kubectl apply -f ./perfect_guide/prune_sample --prune -l system=a
 
-# 即時削除
+# 即時削除(ファイルは、コンマ区切で複数指定できる)
 kubectl delete -f [ファイル名] --grace-period 0 --force
 
 # コンテナ内のファイルをローカルマシンにコピー(逆も可)
